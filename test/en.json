@@ -1,5 +1,5 @@
 {
-    "lang" : "en",
+    "locale" : "en",
     "dictonary" : {
         "english test" : "Just a test for english",
         "test" : "test for englsh"

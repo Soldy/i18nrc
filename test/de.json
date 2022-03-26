@@ -1,5 +1,5 @@
 {
-    "lang" : "de",
+    "locale" : "de",
     "dictonary" : {
         "german test" : "Nur ein Test für Deutschland",
         "test" : "test für Deutschland"
