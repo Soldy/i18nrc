@@ -1,0 +1,38 @@
+{
+  "name": "i18nrc",
+  "version": "0.0.1",
+  "description": "Simple i18n implementation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Soldy/i18nrc"
+  },
+  "dependencies": {
+    "theuniverse": "^0.2.2"
+  },
+  "devDependencies": {
+    "nanoTest": "0.9.9-beta28"
+  },
+  "keywords": [
+    "i18n",
+    "globalization",
+    "intl",
+    "internationalization",
+    "l10n",
+    "translation",
+    "local",
+    "locale",
+    "locales",
+    "localize",
+    "localazer",
+    "localization"
+  ],
+  "author": "Soldy <npmjs@gidigi.com> (http://gidigi.com)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Soldy/i18nrc/issues"
+  }
+}
