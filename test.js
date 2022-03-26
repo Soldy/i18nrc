@@ -1,17 +1,28 @@
 'use strict';
 const nanoTest  = new (require('nanoTest')).test({
-    'progress_bar' : false,
-    'debug_print'  : 'short'
+    'progress_bar'   : false,
+    'debug_print'    : 'short'
 });
 
-let $i18nrc ;$i18nrcreference;
+let  $i18nrc =  (require('./index.js')).base;
+let  $i18nrcreference = (require('./index.js')).base;
+const _init_options = [{
+    'directory': 'test',
+    'locales'  : ['en','fr'],
+    'files'    : [
+        '0101.json',
+        'en.json',
+        'fr.json',
+        'de.json'
+    ]
+}];
 
 nanoTest.add(
-    'init the first',
+    'first define',
     {
         'function':function(){
-             $i18nrc = new (require('./index.js')).base;
-
+            $i18nrc = (require('./index.js')).base;
+            return true;
         },
         'options':[]
     },
@@ -20,11 +31,11 @@ nanoTest.add(
 );
 
 nanoTest.add(
-    'init the reference',
+    'define reference',
     {
         'function':function(){
-             $i18nrcreference = new (require('./index.js')).base;
-
+            $i18nrcreference = (require('./index.js')).base;
+            return true;
         },
         'options':[]
     },
@@ -32,57 +43,31 @@ nanoTest.add(
     false
 );
 
-nanoTest.add(
-    'init the first',
-    {
-        'function':function(){
-             $i18nrc = new (require('./index.js')).base;
-
-        },
-        'options':[]
-    },
-    '!==',
-    false
-);
 
 nanoTest.add(
     'init the first',
     {
         'function':$i18nrc.init,
-        'options':[{
-             'directory': 'test',
-             'locales'  : ['en','fr'],
-             'files'    : [
-                 'en.js',
-                 'fr.js',
-                 'de.js'
-             ]
-        }]
+        'options':_init_options
     },
     '===',
     true
 );
 
 nanoTest.add(
-    'init the first',
+    'init the first when inited',
     {
         'function':$i18nrc.init,
-        'options':[{
-             'directory': 'test',
-             'locales' : ['en','fr']
-        }]
+        'options':[]
     },
     'error'
 );
 
 nanoTest.add(
-    'init the first',
+    'init the second firs inited',
     {
         'function':$i18nrcreference.init,
-        'options':[{
-             'directory': 'test',
-             'locales' : ['en','fr']
-        }]
+        'options':[]
     },
     'error'
 );
@@ -110,8 +95,8 @@ nanoTest.add(
 nanoTest.add(
     'test france 1',
     {
-         'function': $i18n.__
-         'options' : ['france test']
+        'function': $i18nrc.__,
+        'options' : ['france test']
 
     },
     '===',
@@ -121,8 +106,8 @@ nanoTest.add(
 nanoTest.add(
     'test english 1',
     {
-         'function': $i18n.__
-         'options' : ['english test']
+        'function': $i18nrc.__,
+        'options' : ['english test']
 
     },
     '===',
@@ -130,21 +115,21 @@ nanoTest.add(
 );
 
 nanoTest.add(
-    'test english 1',
+    'test german 1',
     {
-         'function': $i18n.__
-         'options' : ['english test']
+        'function': $i18nrc.__,
+        'options' : ['german test']
 
     },
     '===',
-    'Just a test for english'
+    'german test'
 );
 
 nanoTest.add(
     'not exist key',
     {
-         'function': $i18n.__
-         'options' : ['Not exist at all']
+        'function': $i18nrc.__,
+        'options' : ['Not exist at all']
 
     },
     '===',
@@ -154,8 +139,8 @@ nanoTest.add(
 nanoTest.add(
     'test france reference',
     {
-         'function': $i18nreference.__
-         'options' : ['france test']
+        'function': $i18nrcreference.__,
+        'options' : ['france test']
 
     },
     '===',
@@ -165,8 +150,8 @@ nanoTest.add(
 nanoTest.add(
     'test english reference',
     {
-         'function': $i18nreference.__
-         'options' : ['english test']
+        'function': $i18nrcreference.__,
+        'options' : ['english test']
 
     },
     '===',
@@ -176,20 +161,20 @@ nanoTest.add(
 nanoTest.add(
     'test english reference',
     {
-         'function': $i18nreference.__
-         'options' : ['german test']
+        'function': $i18nrcreference.__,
+        'options' : ['german test']
 
     },
     '===',
-    'german test
+    'german test'
 );
 
 
 nanoTest.add(
-    'test english reference',
+    'test german reference',
     {
-         'function': $i18nreference.__
-         'options' : ['german test', 'de']
+        'function': $i18nrcreference.__,
+        'options' : ['german test', 'de']
 
     },
     '===',
@@ -197,10 +182,10 @@ nanoTest.add(
 );
 
 nanoTest.add(
-    'test english reference',
+    'test german test 01 reference',
     {
-         'function': $i18nreference.__
-         'options' : ['german test', ['01', 'de']
+        'function': $i18nrcreference.__,
+        'options' : ['german test', ['01', 'de']]
 
     },
     '===',
@@ -211,8 +196,8 @@ nanoTest.add(
 nanoTest.add(
     'not exist key',
     {
-         'function': $i18nreference.__
-         'options' : ['Not exist at all']
+        'function': $i18nrcreference.__,
+        'options' : ['Not exist at all']
 
     },
     '===',
