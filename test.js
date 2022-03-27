@@ -60,7 +60,8 @@ nanoTest.add(
         'function':$i18nrc.init,
         'options':[]
     },
-    'error'
+    'error',
+    'Already initalized'
 );
 
 nanoTest.add(
@@ -69,7 +70,8 @@ nanoTest.add(
         'function':$i18nrcreference.init,
         'options':[]
     },
-    'error'
+    'error',
+    'Already initalized'
 );
 
 nanoTest.add(
