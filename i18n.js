@@ -3,8 +3,8 @@
  */
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const $lfs = require('legacyfsrc').base;
+const $path = require('path');
 const $setuprc = require('setuprc').base;
 
 /*
@@ -25,8 +25,8 @@ const i18nrcBase=function(settings){
      * @param {object}
      * @public
      */
-    this.init = function(settings){
-        return  _init(settings);
+    this.init = async function(settings){
+        return await  _init(settings);
     };
     /*
      * @public
@@ -36,7 +36,27 @@ const i18nrcBase=function(settings){
             return true;
         return false;
     };
+    /*
+     *  @private
+     *  @var {integer}
+     */
     let _initalized = false;
+    /*
+     *  @private
+     *  @var {integer}
+     */
+    let _initalizing = false;
+    /*
+     *  @private
+     *  @var {integer}
+     */
+    let _dict_size = 0;
+    /*
+     *  @private
+     *  @var {integer}
+     */
+    let _readed = 0;
+
     /*
      * @private
      *  @const {object}
@@ -70,6 +90,8 @@ const i18nrcBase=function(settings){
      * @return {string}
      */
     const _get = function(stence, locales){
+        if(_initalized === false)
+            return '';
         if(typeof locales === 'string')
             locales = [locales.toString()];
         if(!Array.isArray(locales))
@@ -79,49 +101,61 @@ const i18nrcBase=function(settings){
                 (typeof i === 'string')&&
                  (typeof _langs[i] !== 'undefined')&&
                  (typeof _langs[i][stence] !== 'undefined')
-            )
+            ){
                 return _langs[i][stence].toString();
+            }
         return stence.toString();
+    };
+
+    /*
+     * @param {string} data
+     * @private
+     */
+    const _fileProcessor = function(data){
+        data = JSON.parse(data);
+        if(
+            (typeof data.locale !== 'string') ||
+            (typeof data.dictonary !== 'object')
+        )
+            throw Error('Invalid lang file format');
+        if(typeof _langs[data.locale] === 'undefined')
+            _langs[data.locale] = {};
+        for (let i in data.dictonary){
+            if(typeof data.dictonary[i] === 'string')
+                _langs[data.locale][i] = data.dictonary[i].toString();
+        }
+        _readed++;
+        if(_readed >= _dict_size)
+            _initalized = true;
     };
     /*
      * @param {string} file_
      * @private
      */
-    const _read = function(file_){
-        const file = JSON.parse(
-            fs.readFileSync(
-                path.join(
-                    process.cwd(),
-                    _setup.get('directory'),
-                    file_
-                ),
-                'utf8'
-            )
+    const _read = async function(file_){
+        const data = await $lfs.readFile(
+            $path.join(
+                process.cwd(),
+                _setup.get('directory'),
+                file_
+            ),
+            'utf8',
         );
-        if(
-            (typeof file.locale !== 'string') ||
-            (typeof file.dictonary !== 'object')
-        )
-            throw Error('Invalid lang file format');
-        if(typeof _langs[file.locale] === 'undefined')
-            _langs[file.locale] = {};
-        for (let i in file.dictonary){
-            if(typeof file.dictonary[i] === 'string')
-                _langs[file.locale][i] = file.dictonary[i].toString();
-        }
+        _fileProcessor(data);
     };
     /*
      * @param {object}
      * @private
      */
-    const _init = function(settings){
-        if(_initalized === true) 
+    const _init = async function(settings){
+        if(_initalizing === true) 
             throw Error('Already initalized');
         _setup.setup(settings);
-        _initalized = true;
+        _initalizing = true;
         for (let i of _setup.get('files')){
-            _read(i);
+            await _read(i);
         }
+        _initalized = true;
         return true;
     };
 

@@ -77,7 +77,7 @@ nanoTest.add(
 nanoTest.add(
     'first ready ',
     {
-        'function':$i18nrcreference.ready,
+        'function':$i18nrc.ready,
         'options':[]
     },
     '===',
@@ -207,3 +207,4 @@ nanoTest.add(
 );
 
 nanoTest.run();
+

@@ -11,10 +11,11 @@
     "url": "https://github.com/Soldy/i18nrc"
   },
   "dependencies": {
-    "theuniverse": "^0.2.2"
+    "theuniverse": "0.2.2",
+    "legacyfsrc": "0.0.1"
   },
   "devDependencies": {
-    "nanoTest": "0.9.9-beta28"
+    "nanoTest": "0.9.9-beta32"
   },
   "keywords": [
     "i18n",
